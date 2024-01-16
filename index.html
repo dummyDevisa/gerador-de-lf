@@ -41,6 +41,15 @@
 
   <body class="d-flex">
 
+    <div class="overlay-container d-none">
+      <div class="overlay">
+        <!-- Spinner Bootstrap -->
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    </div>
+
     <div class="cover-container d-flex w-100 h-50 mx-auto g-3 flex-column">
 
       <div class="mx-auto m-5">
@@ -102,7 +111,7 @@
               </div>
               <div class="col-md-2">
                 <label for="inputLF" class="form-label">Licença</label>
-                <input type="text" class="form-control" name="inputLF" id="inputLF" oninput="inputProcesso(this)" required>
+                <input type="text" class="form-control" name="inputLF" id="inputLF" oninput="inputProcesso(this)" required readonly>
                 <div class="invalid-feedback"></div>
               </div>
               <div class="col-md-5">
@@ -311,7 +320,7 @@
             <div class="modal-dialog modal-dialog-centered">
               <div class="modal-content">
                 <div class="modal-header text-bg-secondary">
-                  <h3 class="modal-title fs-5" id="staticBackdropLabel">Seletor de CNAE</h2>
+                  <h3 class="modal-title fs-5" id="staticBackdropLabel">Seletor de Cnae</h2>
                   <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close" onclick="resetForm('formCnae');"></button>
                 </div>
                 <div class="modal-body">
@@ -344,14 +353,14 @@
             <div class="modal-dialog modal-dialog-centered">
               <div class="modal-content">
                 <div class="modal-header text-bg-black">
-                  <h4 class="modal-title fs-5" id="staticBackdropLabel">Sistema</h4>
+                  <h4 class="modal-title fs-5" id="staticBackdropLabel">⚠️ ⚠️</h4>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                  <p class="h5">Deseja apagar os dados de todos os campos?</p>
+                  <p class="h5 text-center">Deseja apagar os dados de todos os campos?</p>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-primary btn-sm" onclick="resetForm(1); eventoLimparForms();" data-bs-dismiss="modal">Sim, Limpar</button>
+                  <button type="button" class="btn btn-warning btn-sm" onclick="resetForm(1); eventoLimparForms();" data-bs-dismiss="modal">Sim, Limpar</button>
                   <button type="button" class="btn btn-light btn-sm" data-bs-dismiss="modal">Fechar</button>
                 </div>
               </div>
@@ -362,14 +371,14 @@
             <div class="modal-dialog modal-dialog-centered">
               <div class="modal-content">
                 <div class="modal-header text-bg-black">
-                  <h2 class="modal-title fs-5" id="staticBackdropLabel">Sistema</h2>
+                  <h2 class="modal-title fs-5" id="staticBackdropLabel">⚠️ ⚠️</h2>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                   <p class="h5">Deseja editar os dados desse processo?</p>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-primary btn-sm" onclick="removeReadOnly()" data-bs-dismiss="modal">Sim, Editar</button>
+                  <button type="button" class="btn btn-warning btn-sm" onclick="removeReadOnly()" data-bs-dismiss="modal">Sim, Editar</button>
                   <button type="button" class="btn btn-light btn-sm" data-bs-dismiss="modal">Fechar</button>
                 </div>
               </div>
@@ -510,19 +519,19 @@
             </div>
           </div>
 
-          <div class="modal modal-sm fade" id="staticBackdropBtnSalvar" data-bs-backdrop="dynamic" data-bs-keyboard="true" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+          <div class="modal fade" id="staticBackdropBtnSalvar" data-bs-backdrop="dynamic" data-bs-keyboard="true" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
               <div class="modal-content">
                 <div class="modal-header text-bg-black">
-                  <h2 class="modal-title fs-5" id="staticBackdropLabel">Sistema</h2>
+                  <h2 class="modal-title fs-5" id="staticBackdropLabel">⚠️ ⚠️</h2>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                  <p class="h5">Deseja salvar os dados desse processo?</p>
-                  <p class="h5">Esta ação não pode ser desfeita.</p>
+                  <p class="h5 text-center">Deseja salvar os dados desse processo?</p>
+                  <p class="h5 text-center">Esta ação não pode ser desfeita.</p>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-primary btn-sm" data-bs-dismiss="modal" onclick="buscarProcesso('save')">Sim, Salvar</button>
+                  <button type="button" class="btn btn-warning btn-sm" data-bs-dismiss="modal" onclick="buscarProcesso('save')">Sim, Salvar</button>
                   <button type="button" class="btn btn-light btn-sm" data-bs-dismiss="modal">Fechar</button>
                 </div>
               </div>
@@ -533,11 +542,11 @@
             <div class="modal-dialog modal-dialog-centered">
               <div class="modal-content">
                 <div class="modal-header text-bg-black">
-                  <h2 class="modal-title fs-5" id="staticBackdropLabel">Sistema</h2>
+                  <h2 class="modal-title fs-5" id="staticBackdropLabel">✅ ✅</h2>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                  <p class="h5">Dados salvos!</p>
+                  <p class="h5 text-center">Operação bem-sucedida.</p>
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-light btn-sm" data-bs-dismiss="modal">Fechar</button>
@@ -550,7 +559,7 @@
             <div class="modal-dialog modal-dialog-centered">
               <div class="modal-content">
                 <div class="modal-header text-bg-black">
-                  <h2 class="modal-title fs-5" id="staticBackdropLabel">Sistema</h2>
+                  <h2 class="modal-title fs-5" id="staticBackdropLabel">❌ ❌</h2>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -567,15 +576,15 @@
             <div class="modal-dialog modal-dialog-centered">
               <div class="modal-content">
                 <div class="modal-header text-bg-black">
-                  <h2 class="modal-title fs-5" id="staticBackdropLabel">Sistema</h2>
+                  <h2 class="modal-title fs-5" id="staticBackdropLabel">🖨️ 🖨️</h2>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                  <p class="h5">Esse processo já tem uma LF. Quer mesmo apagar a sua LF e salvar outra no lugar dela?</p>
-                  <p class="h5">Esta ação não pode ser desfeita.</p>
+                  <p class="h5 text-center">Esse processo já tem uma LF. Quer mesmo apagar a sua LF e salvar outra no lugar dela?</p>
+                  <p class="h5 text-center">Esta ação não pode ser desfeita.</p>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal">Pode apagar</button>
+                  <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal" onclick="createFolder()">Pode apagar</button>
                   <button type="button" class="btn btn-light btn-sm" data-bs-dismiss="modal">Não</button>
                 </div>
               </div>
@@ -586,14 +595,14 @@
             <div class="modal-dialog modal-dialog-centered">
               <div class="modal-content">
                 <div class="modal-header text-bg-black">
-                  <h2 class="modal-title fs-5" id="staticBackdropLabel">Sistema</h2>
+                  <h2 class="modal-title fs-5" id="staticBackdropLabel">🖨️ 🖨️</h2>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                  <p class="h5">Quer gerar a LF dos dados deste formulário?</p>
+                  <p class="h5 text-center">Quer gerar a LF dos dados deste formulário?</p>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="createFolder()">Sim</button>
+                  <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal" onclick="createFolder()">Sim</button>
                   <button type="button" class="btn btn-light btn-sm" data-bs-dismiss="modal">Não</button>
                 </div>
               </div>
@@ -636,7 +645,7 @@
         <div class="btn-group" role="group" aria-label="">
           <button class="btn btn-success" type="button" id="btnSalvar" data-bs-toggle="modal" data-bs-target="#staticBackdropBtnSalvar" disabled>Salvar</button>
           <button class="btn btn-danger" type="button" id="btnPDF" onclick="loadFormPdf()" disabled>PDF</button>
-          <button class="btn btn-warning" type="button" id="btnExplorer" disabled>Pasta</button>
+          <button class="btn btn-warning" type="button" id="btnExplorer" onclick="openFolder()">Pasta</button>
         </div>
         <button id="btnModalCNPJ" class="btn btn-primary d-none" type="button" data-bs-toggle="modal" data-bs-target="#staticBackdropCNPJ">CNPJ</button>
       </footer>

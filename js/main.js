@@ -414,7 +414,9 @@ async function salvarProcesso(rng) {
         setReadOnly(); // bloquear o form pra edição
         // ###### habilitar a geração do PDF.
     } else {
-        console.warn('Dados inválidos no formulário');
+        const myModal = new bootstrap.Modal(document.getElementById('modalSaveFail'))
+        myModal.show();
+        //console.warn('Dados inválidos no formulário');
     }
 }
 

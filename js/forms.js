@@ -461,7 +461,7 @@ function removeReadOnly() {
 
       element.id != 'inputStatus' &&  element.id != 'inputRequisito' &&
       element.id != 'inputCodigo' &&  element.id != 'inputCnaeDecladado' &&
-      element.id !=  'inputDataAbertura' // aqui ficam as exceções.
+      element.id !=  'inputDataAbertura' && element.id !=  'inputLF' // aqui ficam as exceções.
       ? element.removeAttribute('readonly')
       : '';
 
@@ -490,7 +490,7 @@ function removeReadOnly() {
 
 function getYear() {
     var inputData = document.getElementById('inputDataEmissao');
-    console.log('getYear(): ' + inputData)
+    //console.log('getYear(): ' + inputData)
     var data = new Date(inputData.value);
     var ano = data.getFullYear();
     return ano;
@@ -543,14 +543,11 @@ function format0000(numero, comprimento) {
 }
 
 // odeio variáveis globais
-var urlDoLinkPdf = undefined;
+var urlDoLinkPdf = '';
 function hyperlinkOpenPdf() {
   //console.log('hyperlinkOpenPdf: ' + urlDoLinkPdf)
   window.open(urlDoLinkPdf, '_blank');
 }
-
-
-
 
 function forcingOnInputEvent(input) {
   var inputElement = document.getElementById(input);
@@ -564,4 +561,23 @@ function forcingOnInputEvent(input) {
 
   // Disparar o evento no elemento de input
   inputElement.dispatchEvent(eventoInput);
+}
+
+
+// Função para verificar a condição
+function verificarCondicaoLicenca() {
+  var dataZ4 =  $("#inputDataEmissao").val();
+  var anoZ4 = new Date(dataZ4).getFullYear();
+  var dataLimite = new Date(anoZ4, 2, 31); // Mês é 0-indexed, então 2 representa março
+
+  if (new Date() <= dataLimite) {
+    return 'Válida';
+  } else {
+    return 'Expirada';
+  }
+}
+
+function openFolder() {
+  const driveLf = 'https://drive.google.com/drive/folders/1AQzoGAGYmeVZd5qD-_uYnUXxaKJSP3XP?usp=drive_link'
+  window.open(driveLf, '_blank');
 }

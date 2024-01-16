@@ -105,6 +105,7 @@ gapi.client.sheets.spreadsheets.values.get({
 }
 
 async function gapiGetProcess(tipoBusca, eCr, eCh, eAn, range){
+  $(".overlay-container").toggleClass("d-none");
   const spreadsheetId = '1hvT8Ya6OjnaMln5tetI8KDieR_q7lHj6p_MPORD57xM';
   gapi.client.sheets.spreadsheets.values.get({
     spreadsheetId,
@@ -135,9 +136,11 @@ async function gapiGetProcess(tipoBusca, eCr, eCh, eAn, range){
     $(".overlayBuscar").toggleClass("d-none"); // gambiarra
     return;
   });
+  $(".overlay-container").toggleClass("d-none");
 }
 
 async function gapiLoadForm(tipoBusca, rng) {
+  $(".overlay-container").toggleClass("d-none");
   try {
     gapi.client.sheets.spreadsheets.values.get({
       spreadsheetId: '1hvT8Ya6OjnaMln5tetI8KDieR_q7lHj6p_MPORD57xM',
@@ -212,9 +215,11 @@ async function gapiLoadForm(tipoBusca, rng) {
     } catch(err) {
       console.error(err.message); 
       } 
+      $(".overlay-container").toggleClass("d-none");
 }
 
 async function gapiSaveProc(formDataObject, rng) {
+  $(".overlay-container").toggleClass("d-none");
   try {
     const values = [], spreadsheetId = '1hvT8Ya6OjnaMln5tetI8KDieR_q7lHj6p_MPORD57xM';
     inputMatrix = [];
@@ -265,10 +270,12 @@ async function gapiSaveProc(formDataObject, rng) {
     myModal.show();
     console.error(error.message);
   }
+  $(".overlay-container").toggleClass("d-none");
 }
 
 /** GAPI Docs e Drive */
 async function createFolder() {
+  $(".overlay-container").toggleClass("d-none");
   // Exemplo de uso
   if (!gapi.client.drive) {
     console.error('Cliente do Drive não inicializado em gapiStart().');
@@ -309,11 +316,13 @@ async function createFolder() {
       console.error('Erro ao verificar a existência da pasta:', error);
     });
   }
+  $(".overlay-container").toggleClass("d-none");
 }
 
 // Função para criar um documento Google em branco dentro da pasta especificada
 // Pode ser chamada diretamente por qualquer função, bastando que passe o ID e o nome do arquivo
 async function createDocument(parentFolderId) {
+  $(".overlay-container").toggleClass("d-none");
   gapi.client.drive.files.create({
     resource: {
       name: 'Novo Documento',
@@ -325,10 +334,12 @@ async function createDocument(parentFolderId) {
   }, function (error) {
     console.error('Erro ao criar documento:', error);
   });
+  $(".overlay-container").toggleClass("d-none");
 }
 
 // Função para salvar uma cópia do documento Google com substituição de texto
 function saveCopyWithReplacement(parentFolderId, folderName, documentId, arrayReplacement) {
+  $(".overlay-container").toggleClass("d-none");
   // Busca a pasta filho pelo nome
   gapi.client.drive.files.list({
     q: `name='${folderName}' and mimeType='application/vnd.google-apps.folder'`,
@@ -485,10 +496,12 @@ function saveCopyWithReplacement(parentFolderId, folderName, documentId, arrayRe
   }, function (folderError) {
     console.error('Erro ao buscar a pasta filho:', folderError);
   });
+  $(".overlay-container").toggleClass("d-none");
 }
 
 
 async function appendUrl() {
+  $(".overlay-container").toggleClass("d-none");
   var params = {
     spreadsheetId: '1hvT8Ya6OjnaMln5tetI8KDieR_q7lHj6p_MPORD57xM',
     range: 'Raw LF!T2:U'
@@ -517,11 +530,13 @@ async function appendUrl() {
           }
         };
 
-      
-
         // Realizar a solicitação de atualização
         gapi.client.sheets.spreadsheets.values.update(updateParams).then(function(updateResponse) {
           //console.log('Link atualizado com sucesso:', updateResponse);
+          const myModal = new bootstrap.Modal(document.getElementById('modalSaveSuccess'));
+          myModal.show();
+          $('#btnLink').prop('disabled', false);
+          $("#inputStatus").val(verificarCondicaoLicenca());
         }, function(error) {
           console.error('Erro ao atualizar Link:', error);
         });
@@ -533,11 +548,15 @@ async function appendUrl() {
   }, function(error) {
     console.error('Erro ao obter valores:', error);
   });
+  $(".overlay-container").toggleClass("d-none");
 }
+
+
 
 
 // o valor máximo em Raw LF!W2:W
 async function maxNumberOfNumLf() {
+  $(".overlay-container").toggleClass("d-none");
   var params = {
     spreadsheetId: '1hvT8Ya6OjnaMln5tetI8KDieR_q7lHj6p_MPORD57xM',
     range: 'Raw LF!W2:W'
@@ -564,7 +583,7 @@ async function maxNumberOfNumLf() {
       receptor.value === '' ?
       receptor.value = maxNumber+1 : '';
       //return maxNumber;
-      //console.log('Maior número na coluna W:', maxNumber);
+      //console.log('Maior +1 número na coluna W:', maxNumber, maxNumber+1);
 
     } else {
       console.log('Nenhum valor encontrado na coluna W.');
@@ -572,6 +591,7 @@ async function maxNumberOfNumLf() {
   } catch (error) {
     console.error('Erro ao obter valores da planilha:', error);
   }
+  $(".overlay-container").toggleClass("d-none");
 }
 
 
