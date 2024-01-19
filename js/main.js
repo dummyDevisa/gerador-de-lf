@@ -380,7 +380,6 @@ async function salvarProcesso(rng) {
     if (getYear()>=2024) {
         $("#inputCodigo, #inputRequisito").prop("required", true);
         // preencher o input LF
-        await maxNumberOfNumLf();
 
     } else if (getYear()<2024) {
         $("#inputCodigo, #inputRequisito").removeAttr("required");
@@ -388,6 +387,9 @@ async function salvarProcesso(rng) {
         console.error("Erro no getYear(), saindo...")
         return;
     }
+
+    // geração de número incremental
+    await maxNumberOfNumLf();
 
     forms.forEach(function (form) {
         // Verifica a validade dos campos antes de prosseguir com a submissão
@@ -419,8 +421,6 @@ async function salvarProcesso(rng) {
         //console.warn('Dados inválidos no formulário');
     }
 }
-
-
 
 /** 
  * Anexar o link do PDF ao botão na pesquisa

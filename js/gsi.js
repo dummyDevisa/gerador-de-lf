@@ -67,7 +67,6 @@ function revokeToken() {
 /** */
 function listMajors() {
 // Obtém os valores atuais
-
 gapi.client.sheets.spreadsheets.values.get({
   spreadsheetId: '1hvT8Ya6OjnaMln5tetI8KDieR_q7lHj6p_MPORD57xM',
   range: 'Raw LF Old!A2:A',
@@ -228,8 +227,10 @@ async function gapiSaveProc(formDataObject, rng) {
       inputMatrix = [...inputIdsOld];
     } else {
       inputMatrix = [...inputIdsNew];
-      $("#btnPDF").prop("disabled", false);
+      //$("#btnPDF").prop("disabled", false);
     }
+
+    $("#btnPDF").prop("disabled", false);
 
     inputMatrix.forEach(([inputId, colIndex, colLast]) => {
       const value = formDataObject[inputId];
@@ -281,11 +282,19 @@ async function createFolder() {
     console.error('Cliente do Drive não inicializado em gapiStart().');
   } else {
 
-    const criarStringMesAno = () => new Date().toISOString().slice(0, 7)
     var parentFolderId = '1AQzoGAGYmeVZd5qD-_uYnUXxaKJSP3XP'; // ID da pasta pai
-    var folderName = criarStringMesAno(); // Nome da nova pasta, XXXX-XX
+    var folderName = '';
     var documentId = '1pAdilPZk3c5bR8qRL5BRgRD7n8rAb-eSn2NfYJWPlQA'; // Modelo de LF
+    var valorData = $("#inputDataAbertura").val();
 
+      if (parseInt(valorData.split("-")[0]) < 2024) {
+        var anoMes = valorData.split("-").slice(0, 2).join("-");
+        folderName = anoMes;  // Nome da nova pasta, XXXX-XX
+      } else {
+        const criarStringMesAno = () => new Date().toISOString().slice(0, 7);
+        folderName = criarStringMesAno();  // Nome da nova pasta, XXXX-XX
+      }
+      
     // Verifica se a pasta já existe
     gapi.client.drive.files.list({
       q: `'${parentFolderId}' in parents and mimeType='application/vnd.google-apps.folder' and name='${folderName}'`,
@@ -502,25 +511,33 @@ function saveCopyWithReplacement(parentFolderId, folderName, documentId, arrayRe
 
 async function appendUrl() {
   $(".overlay-container").toggleClass("d-none");
+
+  var codValue = document.getElementById('inputCodigo').value
+  var anoValue = document.getElementById('inputDataAbertura').value.substring(0, 4)
+  var rangeSheet = ''
+
+  if (parseInt(anoValue) < 2024) {
+    rangeSheet =  'Raw LF Old!A2:B'   
+  } else {
+    rangeSheet =  'Raw LF!T2:U'
+  }
+
   var params = {
     spreadsheetId: '1hvT8Ya6OjnaMln5tetI8KDieR_q7lHj6p_MPORD57xM',
-    range: 'Raw LF!T2:U'
+    range: rangeSheet
   };
 
   gapi.client.sheets.spreadsheets.values.get(params).then(function(response) {
     var values = response.result.values;
 
-    var codValue = document.getElementById('inputCodigo').value
-    var anoValue = document.getElementById('inputDataAbertura').value.substring(0, 4)
-
     // Procurar por 'proc' e 'ano' nas colunas T e U
     for (var i = 0; i < values.length; i++) {
 
       // Verificar se encontrou a linha
-      if (codValue === values[i][1] && anoValue === values[i][0]) {
+      if (codValue === values[i][parseInt(anoValue)<2024?0:1] && anoValue === values[i][parseInt(anoValue)<2024?1:0]) {
 
         // Encontrou a linha, agora atualizar a coluna 'AG' com 'salve-me'
-        var rangeToUpdate = 'Raw LF!AG' + (i + 2); // i + 2 porque os índices começam em 0 e a primeira linha é o cabeçalho
+        var rangeToUpdate = parseInt(anoValue)<2024?'Raw LF Old!V' + (i + 2):'Raw LF!AG' + (i + 2); // i + 2 porque os índices começam em 0 e a primeira linha é o cabeçalho
         var updateParams = {
           spreadsheetId: '1hvT8Ya6OjnaMln5tetI8KDieR_q7lHj6p_MPORD57xM',
           range: rangeToUpdate,
@@ -557,9 +574,19 @@ async function appendUrl() {
 // o valor máximo em Raw LF!W2:W
 async function maxNumberOfNumLf() {
   $(".overlay-container").toggleClass("d-none");
+
+  var anoValue = document.getElementById('inputDataAbertura').value.substring(0, 4)
+  var rangeSheet = '';
+
+  if (parseInt(anoValue) < 2024) {
+    rangeSheet =  'Raw LF Old!C4446:C';  
+  } else {
+    rangeSheet =  'Raw LF!W2:W';
+  }
+
   var params = {
     spreadsheetId: '1hvT8Ya6OjnaMln5tetI8KDieR_q7lHj6p_MPORD57xM',
-    range: 'Raw LF!W2:W'
+    range: rangeSheet
   };
 
   try {
@@ -586,7 +613,7 @@ async function maxNumberOfNumLf() {
       //console.log('Maior +1 número na coluna W:', maxNumber, maxNumber+1);
 
     } else {
-      console.log('Nenhum valor encontrado na coluna W.');
+      console.log('Nenhum valor encontrado na coluna W, ou C.');
     }
   } catch (error) {
     console.error('Erro ao obter valores da planilha:', error);

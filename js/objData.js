@@ -1251,7 +1251,7 @@ const inputIdsOld = [
     ['inputGDOC', 0, 0],
     ['inputDivisao', 4, 4],
     ['inputVia', 12, 12],
-    ['inputDataAbertura', 22, ''],
+    ['inputDataAbertura', 22, 22],
     ['inputLF', 2, 2],
     ['inputRequisito', '', ''],
     ['inputDataEmissao', 13, 13],
