@@ -6,6 +6,8 @@ document.addEventListener('DOMContentLoaded', function() {
     var mainForms = document.querySelector('.main-forms');
     var btnSalvar = document.getElementById('btnSalvar');
     var inputDate = document.getElementById('inputDataEmissao');
+    // readOnly?
+    document.getElementById("inputDataAbertura").readOnly = true;
     
     var todayDate = (new Date()).toISOString().split('T')[0];
     inputDate.setAttribute('max', todayDate);
