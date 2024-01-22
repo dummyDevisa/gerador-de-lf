@@ -35,6 +35,27 @@ $('.main-forms input, .main-forms select, .main-forms textarea').on('input', fun
   }
 });
 
+function verificarValorCampo(campo) {
+  if (campo === null) {
+      console.log('O valor do campo ' + campo.id + ' é null.');
+      return false;
+  } else if (campo === undefined) {
+      console.log('O valor do campo ' + campo.id + ' é undefined.');
+      return false;
+  } else if (isNaN(campo)) {
+      console.log('O valor do campo é NaN.');
+      return false;
+  } else if (typeof campo === 'number' && !isFinite(campo)) {
+      console.log('O valor do campo ' + campo.id + ' é um número infinito.');
+      return false;
+  } else if (typeof campo === 'object' && campo.constructor === Error) {
+      console.log('O valor do campo ' + campo.id + ' é um objeto de erro.');
+      return false;
+  } else {
+    return true;
+  }
+}
+
 
 function autocomplete() {
     // Seleciona todos os formulários no documento
@@ -532,11 +553,8 @@ function disableBtnTrio() {
 }
 
 function convertDate(date) {
-  const data = new Date(date)
-  const dia = String(data.getDate()).padStart(2, '0');
-  const mes = String(data.getMonth() + 1).padStart(2, '0'); // Note que os meses são indexados de 0 a 11
-  const ano = data.getFullYear();
-  const dataFormatada = `${dia}/${mes}/${ano}`;
+  const [ano, mes, dia] = date.split('-').map(Number);
+  const dataFormatada = `${dia.toString().padStart(2, '0')}/${mes.toString().padStart(2, '0')}/${ano}`;
   return dataFormatada;
 }
 

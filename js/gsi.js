@@ -390,7 +390,12 @@ function saveCopyWithReplacement(parentFolderId, folderName, documentId, arrayRe
         let input;
         replacements.forEach(function (item) {
             //console.log(item.newText, item.oldText)
-            input = document.getElementById(item.newText);  
+            input = document.getElementById(item.newText);
+            
+            if (!verificarValorCampo) {
+              input.value = '';
+            }
+            
             if (item.oldText == '{n-via}') {
               item.newText = `${input.value.slice(0, 4)}ia`;
             } else if (item.oldText == '{YYYY}') {
@@ -402,6 +407,7 @@ function saveCopyWithReplacement(parentFolderId, folderName, documentId, arrayRe
             } else if (item.oldText == '{divisao}') {
               item.newText = input.options[input.selectedIndex].text;
             } else if (item.oldText == '{emissao}') {
+              //console.log(input.value)
               item.newText = convertDate(input.value);
             } else if (item.oldText == '{proc}' || item.oldText == '{LF}') {
               item.newText = format0000(input.value, 4);
