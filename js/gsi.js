@@ -317,7 +317,7 @@ async function createFolder() {
         });
       } else {
         //console.log('A pasta já existe:', response.result.files[0]);
-        //console.log(response.result.files[0].name)
+        //console.log(response.result.files[0].name);
         //createDocument(response.result.files[0].id);
         saveCopyWithReplacement(parentFolderId, response.result.files[0].name, documentId, modeloLicenca);
       }
@@ -394,12 +394,16 @@ function saveCopyWithReplacement(parentFolderId, folderName, documentId, arrayRe
             
             if (item.oldText == '{n-via}') {
               item.newText = `${input.value.slice(0, 4)}ia`;
+              //console.log(item.oldText, item.newText)
             } else if (item.oldText == '{YYYY}') {
               item.newText = input.value.slice(0, 4);
+              //console.log(item.oldText, item.newText)
             } else if (item.oldText == '{YY}') {
               item.newText = input.value.slice(2, 4);
+              //console.log(item.oldText, item.newText)
             } else if (item.oldText == '{validade}') {
               item.newText = `31/03/${parseInt(input.value.slice(0, 4))+1}`;
+              //console.log(item.oldText, item.newText)
             } else if (item.oldText == '{divisao}') {
               item.newText = input.options[input.selectedIndex].text;
             } else if (item.oldText == '{emissao}') {
@@ -408,7 +412,7 @@ function saveCopyWithReplacement(parentFolderId, folderName, documentId, arrayRe
             } else if (item.oldText == '{proc}' || item.oldText == '{LF}') {
               item.newText = format0000(input.value, 4);
             } else {              
-              if (!verificarValorCampo) {
+              if (verificarValorCampo) {
                 item.newText = input.value;
               } else {
                 item.newText = '?';
@@ -513,7 +517,6 @@ function saveCopyWithReplacement(parentFolderId, folderName, documentId, arrayRe
   });
 
   $(".overlay-container").toggleClass("d-none");
-
 }
 
 

@@ -93,6 +93,8 @@ function resetForm(frm) {
 
       const forms = document.querySelectorAll('form');
 
+      forms[i].classList.remove('is-validated');
+
       for (let i = 0; i < forms.length; i++) {
         // Seleciona todos os inputs com a classe 'is-invalid' dentro do formulário
         const inputs = forms[i].querySelectorAll('input.is-invalid');

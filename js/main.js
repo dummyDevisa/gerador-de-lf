@@ -385,7 +385,8 @@ async function salvarProcesso(rng) {
         $("#inputCodigo, #inputRequisito").removeAttr("required");
     } else {
         console.error("Erro no getYear(), saindo...")
-        return;
+        var myModal = new bootstrap.Modal(document.getElementById('modalSaveFail'));
+        return myModal.show();;
     }
 
     // geração de número incremental
