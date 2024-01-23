@@ -392,10 +392,6 @@ function saveCopyWithReplacement(parentFolderId, folderName, documentId, arrayRe
             //console.log(item.newText, item.oldText)
             input = document.getElementById(item.newText);
             
-            if (!verificarValorCampo) {
-              input.value = '';
-            }
-            
             if (item.oldText == '{n-via}') {
               item.newText = `${input.value.slice(0, 4)}ia`;
             } else if (item.oldText == '{YYYY}') {
@@ -411,8 +407,12 @@ function saveCopyWithReplacement(parentFolderId, folderName, documentId, arrayRe
               item.newText = convertDate(input.value);
             } else if (item.oldText == '{proc}' || item.oldText == '{LF}') {
               item.newText = format0000(input.value, 4);
-            } else {
-              item.newText = input.value;
+            } else {              
+              if (!verificarValorCampo) {
+                item.newText = input.value;
+              } else {
+                item.newText = '?';
+              }
             }
         });
 
@@ -511,12 +511,13 @@ function saveCopyWithReplacement(parentFolderId, folderName, documentId, arrayRe
   }, function (folderError) {
     console.error('Erro ao buscar a pasta filho:', folderError);
   });
+
   $(".overlay-container").toggleClass("d-none");
+
 }
 
 
 async function appendUrl() {
-  $(".overlay-container").toggleClass("d-none");
 
   var codValue = document.getElementById('inputCodigo').value
   var anoValue = document.getElementById('inputDataAbertura').value.substring(0, 4)
@@ -571,7 +572,6 @@ async function appendUrl() {
   }, function(error) {
     console.error('Erro ao obter valores:', error);
   });
-  $(".overlay-container").toggleClass("d-none");
 }
 
 

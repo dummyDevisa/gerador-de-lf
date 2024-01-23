@@ -36,21 +36,18 @@ $('.main-forms input, .main-forms select, .main-forms textarea').on('input', fun
 });
 
 function verificarValorCampo(campo) {
-  if (campo === null) {
-      console.log('O valor do campo ' + campo.id + ' é null.');
-      return false;
-  } else if (campo === undefined) {
-      console.log('O valor do campo ' + campo.id + ' é undefined.');
-      return false;
-  } else if (isNaN(campo)) {
-      console.log('O valor do campo é NaN.');
-      return false;
+  if (campo == null) {
+    console.log('O valor do campo ' + campo.id + ' é null ou undefined.');
+    return false;
+  } else if (typeof campo === 'number' && isNaN(campo)) {
+    console.log('O valor do campo ' + campo.id + ' é NaN.');
+    return false;
   } else if (typeof campo === 'number' && !isFinite(campo)) {
-      console.log('O valor do campo ' + campo.id + ' é um número infinito.');
-      return false;
+    console.log('O valor do campo ' + campo.id + ' é um número infinito.');
+    return false;
   } else if (typeof campo === 'object' && campo.constructor === Error) {
-      console.log('O valor do campo ' + campo.id + ' é um objeto de erro.');
-      return false;
+    console.log('O valor do campo ' + campo.id + ' é um objeto de erro.');
+    return false;
   } else {
     return true;
   }
