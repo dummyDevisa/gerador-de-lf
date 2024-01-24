@@ -348,7 +348,7 @@ async function createDocument(parentFolderId) {
 
 // Função para salvar uma cópia do documento Google com substituição de texto
 function saveCopyWithReplacement(parentFolderId, folderName, documentId, arrayReplacement) {
-  $(".overlay-container").toggleClass("d-none");
+  //$(".overlay-container").toggleClass("d-none");
   // Busca a pasta filho pelo nome
   gapi.client.drive.files.list({
     q: `name='${folderName}' and mimeType='application/vnd.google-apps.folder'`,
@@ -388,6 +388,7 @@ function saveCopyWithReplacement(parentFolderId, folderName, documentId, arrayRe
         //replacements = [...arrayReplacement];
         //console.log(replacements)
         let replacements = arrayReplacement.map(obj => ({ ...obj }));
+        
         let input;
         
         replacements.forEach(function (item) {
