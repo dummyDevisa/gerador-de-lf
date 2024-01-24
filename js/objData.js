@@ -1396,3 +1396,13 @@ const modeloLicenca = [
     { oldText: '{conselho}', newText: 'inputConselho' },
     { oldText: '{emissao}', newText: 'inputDataEmissao' },
 ]
+
+const atividadesLf = [
+    'CONFORME O CNAE ABAIXO ESPECIFICADOS',
+    'CONFORME OS CNAES ABAIXO ESPECIFICADOS',
+    'SERVIÇOS DE SAÚDE',
+    'COMÉRCIO VAREJISTA',
+    'COMÉRCIO ATACADISTA',
+    'TRANSPORTADORA',
+    'DISTRIBUIDORA'
+]

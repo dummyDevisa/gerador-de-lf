@@ -1,8 +1,11 @@
 // acrescentar aqui tudo o que precisar ser feito no carregamento do DOM
 document.addEventListener('DOMContentLoaded', function() {
-    autocomplete();
-    dataListLoad();
-    // Obtém a referência para os campos e o botão
+    
+  autocomplete();
+    
+    const datalists = ['bairrosBelem', 'atividadesLf'];
+    dataListLoad(datalists);
+    
     var mainForms = document.querySelector('.main-forms');
     var btnSalvar = document.getElementById('btnSalvar');
     var inputDate = document.getElementById('inputDataEmissao');
@@ -91,7 +94,6 @@ function verificarValorCampo(campo) {
   }
 }
 
-
 function autocomplete() {
     // Seleciona todos os formulários no documento
     var forms = document.querySelectorAll('form');
@@ -102,58 +104,73 @@ function autocomplete() {
     });
 }
  
-function dataListLoad() {
-      // Referência ao datalist
-      var datalist = document.getElementById('datalistOptions');
-  
+function dataListLoad(datalists) {
+  // Itera sobre cada id de datalist no array
+  datalists.forEach(function(datalistId) {
+    var datalist = document.getElementById(datalistId);
+
+    // Certifique-se de que o datalist foi encontrado antes de adicionar opções
+    if (datalist) {
       // Adicionando opções dinamicamente
-      bairrosBelem.forEach(function(option) {
-        var optionElement = document.createElement('option');
-        optionElement.value = option;
-        datalist.appendChild(optionElement);
-      });
+      if (datalistId === 'bairrosBelem') {
+        bairrosBelem.forEach(function(option) {
+          var optionElement = document.createElement('option');
+          optionElement.value = option;
+          datalist.appendChild(optionElement);
+        });
+      } else if (datalistId === 'atividadesLf') {
+        atividadesLf.forEach(function(option) {
+          var optionElement = document.createElement('option');
+          optionElement.value = option;
+          datalist.appendChild(optionElement);
+        });
+      }
+    } else {
+      console.error('Datalist não encontrado com o id:', datalistId);
+    }
+  });
 }
 
 // reset form
 function resetForm(frm) {
-    //passe o parâmetro 1 se quiser limpar todos os campos
-    //passe o id do form se quiser limpar somente ele 
-    if (frm !== 1) {
-      const form = document.getElementById(frm)
+  //passe o parâmetro 1 se quiser limpar todos os campos
+  //passe o id do form se quiser limpar somente ele 
+  if (frm !== 1) {
+      const form = document.getElementById(frm);
       const inputs = form.querySelectorAll('input.is-invalid');
       for (let i = 0; i < inputs.length; i++) {
-          inputs[i].classList.remove('is-invalid','text-danger');
+          inputs[i].classList.remove('is-invalid', 'text-danger');
       }
       return form.reset();
-    } else {      
+  } else {
       $('#btnSalvar').prop('disabled', true);
       $('#btnCNP').prop('disabled', true);
 
       const forms = document.querySelectorAll('form');
 
-      forms[i].classList.remove('is-validated');
-
       for (let i = 0; i < forms.length; i++) {
-        // Seleciona todos os inputs com a classe 'is-invalid' dentro do formulário
-        const inputs = forms[i].querySelectorAll('input.is-invalid');
-        for (let j = 0; j < inputs.length; j++) {
-            // Remove as classes 'is-invalid' e 'text-danger' de cada input
-            inputs[j].classList.remove('is-invalid', 'text-danger');
-        }
-        // Reseta o formulário
-        forms[i].reset();
-      }
-    }
+          forms[i].classList.remove('is-validated');
 
-    let buttons = ['btnLink', 'btnPDF']
-    buttons.forEach(element => {
+          // Seleciona todos os inputs com a classe 'is-invalid' dentro do formulário
+          const inputs = forms[i].querySelectorAll('input.is-invalid');
+          for (let j = 0; j < inputs.length; j++) {
+              // Remove as classes 'is-invalid' e 'text-danger' de cada input
+              inputs[j].classList.remove('is-invalid', 'text-danger');
+          }
+          // Reseta o formulário
+          forms[i].reset();
+      }
+  }
+
+  let buttons = ['btnLink', 'btnPDF'];
+  buttons.forEach(element => {
       let btn = document.getElementById(element);
       btn.disabled = true;
-    });
+  });
 
-    urlDoLinkPdf = '';
+  urlDoLinkPdf = '';
 
-    window.scrollTo(0, 0);
+  window.scrollTo(0, 0);
 }
 
 // inputs

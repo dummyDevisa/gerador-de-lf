@@ -17,6 +17,7 @@ async function buscarCNPJ() {
     const cnpj = String(document.getElementById('inputCNP').value).replace(/[^\d]/g, '')
     //cnpj = '05054671000159'
     //cnpj = '10525225000115'
+    //var proxing = ['https://cors-anywhere.herokuapp.com/', 'https://api.codetabs.com/v1/proxy/?quest=', 'https://corsproxy.io/?'];
     var proxing = ['https://cors-anywhere.herokuapp.com/', 'https://api.codetabs.com/v1/proxy/?quest=', 'https://corsproxy.io/?'];
     
     // remover cors-anywhere por enquanto
@@ -48,7 +49,7 @@ async function buscarCNPJ() {
         
     } catch (error) {
         // Em caso de erro com apiUrl1, tentar apiUrl2
-        console.error('Erro em 1:', error);
+        return console.error('Erro em 1:', error);
 
         // Construir a URL completa da segunda API
         var urlCompleta2 = selectedProxing + apiUrl2 + cnpj;
@@ -117,20 +118,20 @@ function loadData1(jsonData) {
             } else {
 
                 if (jsonPath === "estabelecimento.atividade_principal") {
-                    document.getElementById(inputId).innerHTML = getValueByPath(jsonData, jsonPath);
+                    document.getElementById(inputId).innerHTML = getValueByPath(jsonData, jsonPath, cnaeData);
                     document.getElementById('btnAccordionCnpjCnae1').innerHTML = 'Atividade principal (1)';
                 } else if (jsonPath === "estabelecimento.atividades_secundarias") { 
-                    document.getElementById(inputId).innerHTML = getValueByPath(jsonData, jsonPath);
+                    document.getElementById(inputId).innerHTML = getValueByPath(jsonData, jsonPath, cnaeData);
                     document.getElementById('btnAccordionCnpjCnae2').innerHTML = 'Atividades secundárias ('+ n +')';
                 } else {
-                    document.getElementById(inputId).value = getValueByPath(jsonData, jsonPath);
+                    document.getElementById(inputId).value = getValueByPath(jsonData, jsonPath, '?');
                 }
 
             }
     });
 
 
-    function getValueByPath(obj, path) {
+    function getValueByPath(obj, path, cnaeData) {
         const keys = path.split('.');
         const value = keys.reduce((acc, key) => (acc && acc[key] !== 'undefined') ? acc[key] : undefined, obj);
 
@@ -175,20 +176,30 @@ function loadData1(jsonData) {
         }
 
         if (path === "estabelecimento.atividade_principal") {
-            const cnae_principal = `<tr><td>${obj["estabelecimento"]["atividade_principal"]["subclasse"]}</td><td>${obj["estabelecimento"]["atividade_principal"]["descricao"]}</td></tr>`
-            return cnae_principal;
-        }
-
-
-        if (path === "estabelecimento.atividades_secundarias" && obj["estabelecimento"]["atividades_secundarias"].length > 0) {
-            var subclasse = ''
-            for (let i = 0; i < obj["estabelecimento"]["atividades_secundarias"].length; i++) {
-                subclasse += `<tr><td>${obj["estabelecimento"]["atividades_secundarias"][i]["subclasse"]}</td><td>${obj["estabelecimento"]["atividades_secundarias"][i]["descricao"]}</td></tr>`
-                
+            // Filtra atividade principal com base em cnaeData.code
+            const filteredPrincipal = cnaeData.find(item => item.code === obj["estabelecimento"]["atividade_principal"]["subclasse"]);
+            if (filteredPrincipal) {
+                const cnae_principal = `<tr><td>${filteredPrincipal["code"]}</td><td>${filteredPrincipal["value"]}</td></tr>`;
+                return cnae_principal;
             }
-            n = obj["estabelecimento"]["atividades_secundarias"].length;
-            return subclasse;
         }
+    
+        if (path === "estabelecimento.atividades_secundarias" && obj["estabelecimento"]["atividades_secundarias"].length > 0) {
+            // Filtra atividades secundárias com base em cnaeData.code
+            const filteredSecundarias = obj["estabelecimento"]["atividades_secundarias"].filter(secundaria =>
+                cnaeData.find(item => item.code === secundaria["subclasse"])
+            );
+    
+            if (filteredSecundarias.length > 0) {
+                var subclasse = '';
+                for (let i = 0; i < filteredSecundarias.length; i++) {
+                    subclasse += `<tr><td>${filteredSecundarias[i]["subclasse"]}</td><td>${filteredSecundarias[i]["descricao"]}</td></tr>`;
+                }
+                n = filteredSecundarias.length;
+                return subclasse;
+            }
+        }
+    
         
         if (path === "estabelecimento.situacao_cadastral" && obj["estabelecimento"]["motivo_situacao_cadastral"]) {
             const motivoValue = obj["estabelecimento"]["motivo_situacao_cadastral"]["descricao"];
