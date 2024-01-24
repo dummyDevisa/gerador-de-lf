@@ -377,6 +377,20 @@ async function salvarProcesso(rng) {
     var forms = formGroup.querySelectorAll('form');
     var checkVal = true; // Inicializa como true para que o valor correto seja mantido
 
+    if ($(".inputDataEmissao").val() === '' || $(".inputDataEmissao").val()) {
+    }
+
+    var inputDataEmissaoVal = $("#inputDataEmissao").val();
+
+    switch (inputDataEmissaoVal) {
+        case undefined:
+        case null:
+        case NaN:
+        case '':
+            var myModal = new bootstrap.Modal(document.getElementById('modalSaveFail'));
+            return myModal.show();
+    }
+
     if (getYear()>=2024) {
         $("#inputCodigo, #inputRequisito").prop("required", true);
         // preencher o input LF
@@ -386,7 +400,7 @@ async function salvarProcesso(rng) {
     } else {
         console.error("Erro no getYear(), saindo...")
         var myModal = new bootstrap.Modal(document.getElementById('modalSaveFail'));
-        return myModal.show();;
+        return myModal.show();
     }
 
     // geração de número incremental
