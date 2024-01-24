@@ -169,6 +169,10 @@ function resetForm(frm) {
       btn.disabled = true;
   });
 
+  if (access_token) {
+    $('#btnBuscar').prop('disabled', false);
+  }
+
   urlDoLinkPdf = '';
 
   window.scrollTo(0, 0);

@@ -571,6 +571,7 @@ async function appendUrl() {
           const myModal = new bootstrap.Modal(document.getElementById('modalSaveSuccess'));
           myModal.show();
           $('#btnLink').prop('disabled', false);
+          $('#btnBuscar').prop('disabled', true);
           $("#inputStatus").val(verificarCondicaoLicenca());
         }, function(error) {
           console.error('Erro ao atualizar Link:', error);
