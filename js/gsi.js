@@ -396,7 +396,7 @@ function saveCopyWithReplacement(parentFolderId, folderName, documentId, arrayRe
             input = document.getElementById(item.newText);
             if (input === null) {
               console.warn("O elemento " + input.id + " é nulo, é melhor encerrar por aqui")
-              return;
+              return $(".overlay-container").toggleClass("d-none");;
             }
             
             if (item.oldText == '{n-via}') {
@@ -505,7 +505,7 @@ function saveCopyWithReplacement(parentFolderId, folderName, documentId, arrayRe
             urlDoLinkPdf = `https://docs.google.com/document/d/${copyResponse.result.id}/export?format=pdf`;
        
             await appendUrl();
-          
+            
           }).catch(function (updateError) {
             console.error('Erro ao substituir texto na cópia:', updateError);
           });
@@ -567,6 +567,7 @@ async function appendUrl() {
         // Realizar a solicitação de atualização
         gapi.client.sheets.spreadsheets.values.update(updateParams).then(function(updateResponse) {
           //console.log('Link atualizado com sucesso:', updateResponse);
+          $(".overlay-container").toggleClass("d-none");
           const myModal = new bootstrap.Modal(document.getElementById('modalSaveSuccess'));
           myModal.show();
           $('#btnLink').prop('disabled', false);

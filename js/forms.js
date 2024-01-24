@@ -90,7 +90,7 @@ function verificarValorCampo(campo) {
     console.log('O valor do campo é ' + campo);
     return false;
   } else {
-    console.log('O valor do campo é ' + campo);
+    //console.log('O valor do campo é ' + campo);
     return true;
   }
 }
