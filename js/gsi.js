@@ -385,12 +385,18 @@ function saveCopyWithReplacement(parentFolderId, folderName, documentId, arrayRe
         //console.log('Cópia do documento criada com sucesso:', copyResponse);
 
         // Realiza as substituições no conteúdo da cópia
-        replacements = [...arrayReplacement];
+        //replacements = [...arrayReplacement];
         //console.log(replacements)
+        let replacements = arrayReplacement.map(obj => ({ ...obj }));
         let input;
+        
         replacements.forEach(function (item) {
             //console.log(item.newText, item.oldText)
             input = document.getElementById(item.newText);
+            if (input === null) {
+              console.warn("O elemento " + input.id + " é nulo, é melhor encerrar por aqui")
+              return;
+            }
             
             if (item.oldText == '{n-via}') {
               item.newText = `${input.value.slice(0, 4)}ia`;
