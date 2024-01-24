@@ -24,6 +24,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // JQUERY inputs maiúsculos
 $('.main-forms input, .main-forms select, .main-forms textarea').on('input', function() {
+  // Salva a posição do cursor antes da manipulação
+  var cursorPosition = getCaretPosition(this);
+
   // Verifica se é um campo de texto ou um campo de seleção
   if ($(this).is('input, textarea')) {
     // Para campos de input e textarea, converte para maiúsculas
@@ -33,7 +36,39 @@ $('.main-forms input, .main-forms select, .main-forms textarea').on('input', fun
     var selectedOption = $(this).find('option:selected').text();
     $(this).find('option:selected').text(selectedOption.toUpperCase());
   }
+
+  // Restaura a posição do cursor após a manipulação
+  setCaretPosition(this, cursorPosition);
 });
+
+// Função para obter a posição do cursor em um campo de texto
+function getCaretPosition(input) {
+  if (input.selectionStart !== undefined) {
+    return input.selectionStart;
+  } else if (document.selection) {
+    // Para navegadores mais antigos (IE)
+    input.focus();
+    var selection = document.selection.createRange();
+    var selectionLength = document.selection.createRange().text.length;
+    selection.moveStart('character', -input.value.length);
+    return selection.text.length - selectionLength;
+  }
+  return 0;
+}
+
+// Função para definir a posição do cursor em um campo de texto
+function setCaretPosition(input, position) {
+  if (input.setSelectionRange) {
+    input.setSelectionRange(position, position);
+  } else if (input.createTextRange) {
+    // Para navegadores mais antigos (IE)
+    var range = input.createTextRange();
+    range.collapse(true);
+    range.moveEnd('character', position);
+    range.moveStart('character', position);
+    range.select();
+  }
+}
 
 function verificarValorCampo(campo) {
   if (campo == null) {
