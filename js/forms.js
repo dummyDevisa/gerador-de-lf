@@ -24,21 +24,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // JQUERY inputs maiúsculos
 $('.main-forms input, .main-forms select, .main-forms textarea').on('input', function() {
-  // Salva a posição do cursor antes da manipulação
-  var cursorPosition = getCaretPosition(this);
+  // Verifica se o tipo de entrada não é "date"
+  if ($(this).attr('type') !== 'date') {
+    // Salva a posição do cursor antes da manipulação
+    var cursorPosition = getCaretPosition(this);
 
-  // Verifica se é um campo de texto ou um campo de seleção
-  if ($(this).is('input, textarea')) {
-    // Para campos de input e textarea, converte para maiúsculas
-    $(this).val($(this).val().toUpperCase());
-  } else if ($(this).is('select')) {
-    // Para campos de seleção, converte para maiúsculas
-    var selectedOption = $(this).find('option:selected').text();
-    $(this).find('option:selected').text(selectedOption.toUpperCase());
+    // Verifica se é um campo de texto ou um campo de seleção
+    if ($(this).is('input, textarea')) {
+      // Para campos de input e textarea, converte para maiúsculas
+      $(this).val($(this).val().toUpperCase());
+    } else if ($(this).is('select')) {
+      // Para campos de seleção, converte para maiúsculas
+      var selectedOption = $(this).find('option:selected').text();
+      $(this).find('option:selected').text(selectedOption.toUpperCase());
+    }
+
+    // Restaura a posição do cursor após a manipulação
+    setCaretPosition(this, cursorPosition);
   }
-
-  // Restaura a posição do cursor após a manipulação
-  setCaretPosition(this, cursorPosition);
 });
 
 // Função para obter a posição do cursor em um campo de texto
