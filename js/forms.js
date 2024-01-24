@@ -77,19 +77,20 @@ function setCaretPosition(input, position) {
 }
 
 function verificarValorCampo(campo) {
-  if (campo == null) {
-    console.log('O valor do campo ' + campo.id + ' é null ou undefined.');
+  if (campo == null || campo == undefined) {
+    console.log('O valor do campo é ' + campo);
     return false;
   } else if (typeof campo === 'number' && isNaN(campo)) {
-    console.log('O valor do campo ' + campo.id + ' é NaN.');
+    console.log('O valor do campo é ' + campo);
     return false;
   } else if (typeof campo === 'number' && !isFinite(campo)) {
-    console.log('O valor do campo ' + campo.id + ' é um número infinito.');
+    console.log('O valor do campo é ' + campo);
     return false;
   } else if (typeof campo === 'object' && campo.constructor === Error) {
-    console.log('O valor do campo ' + campo.id + ' é um objeto de erro.');
+    console.log('O valor do campo é ' + campo);
     return false;
   } else {
+    console.log('O valor do campo é ' + campo);
     return true;
   }
 }

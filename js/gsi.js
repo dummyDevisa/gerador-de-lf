@@ -412,7 +412,7 @@ function saveCopyWithReplacement(parentFolderId, folderName, documentId, arrayRe
             } else if (item.oldText == '{proc}' || item.oldText == '{LF}') {
               item.newText = format0000(input.value, 4);
             } else {              
-              if (verificarValorCampo) {
+              if (verificarValorCampo(input.value)) {
                 item.newText = input.value;
               } else {
                 item.newText = '?';
