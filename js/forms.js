@@ -142,7 +142,7 @@ function resetForm(frm) {
       for (let i = 0; i < inputs.length; i++) {
           inputs[i].classList.remove('is-invalid', 'text-danger');
       }
-      return form.reset();
+      form.reset();
   } else {
       $('#btnSalvar').prop('disabled', true);
       $('#btnCNP').prop('disabled', true);
@@ -150,7 +150,7 @@ function resetForm(frm) {
       const forms = document.querySelectorAll('form');
 
       for (let i = 0; i < forms.length; i++) {
-          forms[i].classList.remove('is-validated');
+          forms[i].classList.remove('was-validated');
 
           // Seleciona todos os inputs com a classe 'is-invalid' dentro do formulário
           const inputs = forms[i].querySelectorAll('input.is-invalid');
