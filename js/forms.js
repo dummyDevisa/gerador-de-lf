@@ -142,7 +142,7 @@ function resetForm(frm) {
       for (let i = 0; i < inputs.length; i++) {
           inputs[i].classList.remove('is-invalid', 'text-danger');
       }
-      form.reset();
+      return form.reset();
   } else {
       $('#btnSalvar').prop('disabled', true);
       $('#btnCNP').prop('disabled', true);
@@ -163,11 +163,13 @@ function resetForm(frm) {
       }
   }
 
-  let buttons = ['btnLink', 'btnPDF'];
+  const buttons = ['btnLink', 'btnPDF'];
+
   buttons.forEach(element => {
       let btn = document.getElementById(element);
       btn.disabled = true;
   });
+
 
   if (access_token) {
     $('#btnBuscar').prop('disabled', false);
