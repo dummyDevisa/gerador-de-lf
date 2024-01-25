@@ -492,6 +492,10 @@ function saveCopyWithReplacement(parentFolderId, folderName, documentId, arrayRe
               });
             }
           });
+
+          //tentativa de destruir objeto
+          replacements = null;
+
           // Executa as solicitações de substituição no documento copiado
           gapi.client.docs.documents.batchUpdate({
             documentId: copyResponse.result.id,
@@ -551,10 +555,11 @@ async function appendUrl() {
     for (var i = 0; i < values.length; i++) {
 
       // Verificar se encontrou a linha
-      if (codValue === values[i][parseInt(anoValue)<2024?0:1] && anoValue === values[i][parseInt(anoValue)<2024?1:0]) {
+      if (codValue === values[i][1] && anoValue === values[i][0]) {
 
         // Encontrou a linha, agora atualizar a coluna 'AG' com 'salve-me'
-        var rangeToUpdate = parseInt(anoValue)<2024?'Raw LF Old!V' + (i + 2):'Raw LF!AG' + (i + 2); // i + 2 porque os índices começam em 0 e a primeira linha é o cabeçalho
+        var rangeToUpdate = 'Raw LF!AG' + (i + 2); // i + 2 porque os índices começam em 0 e a primeira linha é o cabeçalho
+        console.log('saveCopyWithReplacement: '+ rangeToUpdate)
         var updateParams = {
           spreadsheetId: '1hvT8Ya6OjnaMln5tetI8KDieR_q7lHj6p_MPORD57xM',
           range: rangeToUpdate,
