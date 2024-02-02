@@ -1273,30 +1273,33 @@ const inputIdsOld = [
 ];
 
 const inputIdsNew = [
-    ['inputCodigo', 0, ''], //20
-    ['inputGDOC', 18, ''],
-    ['inputDivisao', 6, 24],
-    ['inputVia', 23, 23],
-    ['inputDataAbertura', 33, ''],
-    ['inputLF', 22, 22],
+    ['inputCodigo', 0, 2],
+    ['inputGDOC', 4, 0],
+    ['inputDivisao', 6, 6],
+    ['inputVia', 4, 4], // somente LF
+    ['inputDataAbertura', 20, ''],
+    ['inputLF', 4, 4], // somente LF
     ['inputRequisito', 7, ''],
-    ['inputDataEmissao', 25, 25],
-    ['inputAtividade', 30, 30],
-    ['inputComercializar', 31, 31],
-    ['inputCnaeDecladado', 34, ''],
-    ['inputCnaeLiberado', 26, 26],
-    ['inputDespacho', 27, 27],
-    ['inputCNP', 21, ''],
+    ['inputDataEmissao', 7, 7], // somente LF
+    ['inputAtividade', 12, 12], // somente LF
+    ['inputComercializar', 13, 13], // somente LF
+    ['inputCnaeDecladado', 21, ''], 
+    ['inputCnaeLiberado', 8, 8], // somente LF
+    ['inputDespacho', 9, 9], // somente LF
+    ['inputCNP', 3, 3], 
     ['inputEstabelecimento', 9, ''],
     ['inputEndereco', 10, ''],
     ['inputNumero', 12, ''],
     ['inputComplemento', 11, ''],
     ['inputBairro', 13, ''],
     ['inputCep', 14, ''],
-    ['inputResponsavel', 28, 28],
-    ['inputConselho', 29, 29],
-    ['inputStatus', 35, ''],
+    ['inputResponsavel', 10, 10], // somente LF
+    ['inputConselho', 11, 11], // somente LF
+    ['inputStatus', 22, ''], 
 ];
+
+// inputVia, inputLF, inputDataEmissao, inputAtividade, inputComercializar,
+// inputCnaeLiberado, inputDespacho, inputResponsavel, inputConselho,
 
 const bairrosBelem = [
     'Água Boa',

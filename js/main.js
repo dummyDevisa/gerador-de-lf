@@ -362,13 +362,13 @@ async function carregarProcesso(tipoBusca, eCriterio, eChave, eAno) {
 
     // escolher os intervalos da planilha
     if (eCr == 1) { //Código
-        eAn >= 2024 ? range = `Raw LF!T2:U` : '';
+        eAn >= 2024 ? range = `Raw LF!A2:X` : '';
     } else if (eCr == 2) { //CPF, CNPJ
-        eAn >= 2024 ? range = 'Raw LF!T2:V' : range = 'Raw LF Old!B2:D';
+        eAn >= 2024 ? range = 'Raw LF!A2:X' : range = 'Raw LF Old!B2:D';
     } else if (eCr == 3) { //processo
-        eAn >= 2024 ? range = 'Raw LF!S2:T' : range = 'Raw LF Old!A2:B';
+        eAn >= 2024 ? range = 'Raw LF!A2:X' : range = 'Raw LF Old!A2:B';
     } else if (eCr == 4) { //Licença
-        eAn >= 2024 ? range = 'Raw LF!T2:W' : range = 'Raw LF Old!B2:C'; 
+        eAn >= 2024 ? range = 'Raw LF!A2:X' : range = 'Raw LF Old!B2:C'; 
     } else {  
         return console.log('Erro em carregarProcesso().');;
     }

@@ -115,12 +115,12 @@ async function gapiGetProcess(tipoBusca, eCr, eCh, eAn, range){
       if(values[i].includes(eCh) && values[i].includes(eAn)) {
         //return console.log(`Encontrado: ${values[i]}, linha ${i+2}`);
         if (range.includes('Old')) {
-          rng = `Raw LF Old!A${i+2}:AJ${i+2}`
+          rng = `Raw LF Old!A${i+2}:X${i+2}`
         } else {
-          rng = `Raw LF!A${i+2}:AJ${i+2}`
+          rng = `Raw LF!A${i+2}:X${i+2}`
         }
 
-        return await gapiLoadForm(tipoBusca, rng);
+        return await gapiLoadForm(tipoBusca, rng, eCh, eAn);
         
       } else {
         if (i === values.length - 1) {
@@ -138,62 +138,115 @@ async function gapiGetProcess(tipoBusca, eCr, eCh, eAn, range){
   $(".overlay-container").toggleClass("d-none");
 }
 
-async function gapiLoadForm(tipoBusca, rng) {
+async function gapiLoadForm(tipoBusca, rng, eCh, eAn) {
   $(".overlay-container").toggleClass("d-none");
   try {
-    gapi.client.sheets.spreadsheets.values.get({
-      spreadsheetId: '1hvT8Ya6OjnaMln5tetI8KDieR_q7lHj6p_MPORD57xM',
-      range: rng,
-    }).then(async function(response) {
-      const range = response.result;
-      const values = range.values;
+    const spreadsheetId = '1hvT8Ya6OjnaMln5tetI8KDieR_q7lHj6p_MPORD57xM';
+
+    const range1 = rng;
+
+    const response1 = await gapi.client.sheets.spreadsheets.values.get({
+      spreadsheetId: spreadsheetId,
+      range: range1,
+    });
+
+    const values1 = response1.result.values;
+
 
       if (tipoBusca === 'load') {
 
-        if (values && values.length > 0) {
-          let rowData = values[0];
+        if (values1 && values1.length > 0) {
+          let rowData1 = values1[0];
           // Preenche os valores no formulário com base na matriz
+
           inputMatrix = [];
           if (rng.includes('Old')) {
             inputMatrix = [...inputIdsOld]
-          } else {
-            inputMatrix = [...inputIdsNew];
-            let btnURL = document.getElementById('btnLink');
-            if (rowData[32].includes('https://')) {
-              urlDoLinkPdf = rowData[32]
-              btnURL.disabled = false;
-            } else {
-              urlDoLinkPdf = '';
-              btnURL.disabled = true;
-            }
-          }
-
-          for (let i = 0; i < inputMatrix.length; i++) {
-            let inputId = inputMatrix[i][0];
-            let searchColumnIndex = inputMatrix[i][1]; // Coluna de busca
-            let inputElement = document.getElementById(inputId);
+              for (let i = 0; i < inputMatrix.length; i++) {
+                let inputId = inputMatrix[i][0];
+                let searchColumnIndex = inputMatrix[i][1]; // Coluna de busca
+                let inputElement = document.getElementById(inputId);
     
-            // Ignora os valores com ''
-            if (inputElement && searchColumnIndex !== '' && rowData[searchColumnIndex]) {
-              // Verifica se o input é do tipo select
-              if (inputElement.tagName.toLowerCase() === 'select') {
-                // Seleciona a opção que corresponde ao texto retornado na consulta
-                for (let j = 0; j < inputElement.options.length; j++) {
-                  if (inputElement.options[j].text === rowData[searchColumnIndex]) {
-                    inputElement.selectedIndex = j;
-                    break;
+                // Ignora os valores com ''
+                if (inputElement && searchColumnIndex !== '' && rowData[searchColumnIndex]) {
+                  // Verifica se o input é do tipo select
+                  if (inputElement.tagName.toLowerCase() === 'select') {
+                    // Seleciona a opção que corresponde ao texto retornado na consulta
+                    for (let j = 0; j < inputElement.options.length; j++) {
+                      if (inputElement.options[j].text === rowData[searchColumnIndex]) {
+                        inputElement.selectedIndex = j;
+                        break;
+                      }
+                    }
+                  } else if (inputElement.type === 'date') {
+                    // Formata o valor para yyyy-MM-dd
+                    let dateParts = rowData[searchColumnIndex].split('/');
+                    let formattedDate = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
+                    inputElement.value = formattedDate;
+                  } else {
+                    inputElement.value = rowData[searchColumnIndex];
                   }
                 }
-              } else if (inputElement.type === 'date') {
-                // Formata o valor para yyyy-MM-dd
-                let dateParts = rowData[searchColumnIndex].split('/');
-                let formattedDate = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
-                inputElement.value = formattedDate;
-              } else {
-                inputElement.value = rowData[searchColumnIndex];
               }
-            }
+          } else {
+
+            const range2 = 'LF Digitadas!A2:O';
+
+            const response2 = await gapi.client.sheets.spreadsheets.values.get({
+              spreadsheetId: spreadsheetId,
+              range: range2,
+            });
+
+            const values2 = response2.result.values;
+
+              inputMatrix = [...inputIdsNew];
+
+              let rowData2 = values2[0];
+
+              let btnURL = document.getElementById('btnLink');
+
+              if (rowData1[22] === "Válida") {
+                urlDoLinkPdf = rowData2[14]
+                btnURL.disabled = false;
+              } else {
+                urlDoLinkPdf = '';
+                btnURL.disabled = true;
+              } 
+
+              const emDuasPlanilhas = ["inputVia", "inputLF", "inputDataEmissao", "inputAtividade", "inputComercializar", "inputCnaeLiberado", "inputDespacho", "inputResponsavel", "inputConselho"];
+
+              
+              for (let i = 0; i < inputMatrix.length; i++) {
+                let inputId = inputMatrix[i][0];
+                let searchColumnIndex = inputMatrix[i][1]; // Coluna de busca
+                let inputElement = document.getElementById(inputId);
+    
+                // Ignora os valores com ''
+                if (inputElement && searchColumnIndex !== '' && rowData1[searchColumnIndex]) {
+                  // Verifica se o input é do tipo select
+                  if (inputElement.tagName.toLowerCase() === 'select') {
+                    // Seleciona a opção que corresponde ao texto retornado na consulta
+                    for (let j = 0; j < inputElement.options.length; j++) {
+                      if (inputElement.options[j].text === rowData1[searchColumnIndex]) {
+                        inputElement.selectedIndex = j;
+                        break;
+                      }
+                    }
+                  } else if (inputElement.type === 'date') {
+                    // Formata o valor para yyyy-MM-dd
+                    let dateParts = rowData1[searchColumnIndex].split('/');
+                    let formattedDate = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
+                    inputElement.value = formattedDate;
+                  } else {
+                    inputElement.value = rowData1[searchColumnIndex];
+                  }
+                }
+              }
           }
+
+          
+
+          
              
           //console.log('gapiGetProcess: ', rowData);
           $(".overlayBuscar").toggleClass("d-none"); // gambiarra
@@ -209,8 +262,6 @@ async function gapiLoadForm(tipoBusca, rng) {
       } else {
         console.error('Erro em gapiLoadForm().')
       }
-
-    });
     } catch(err) {
       console.error(err.message); 
       } 
